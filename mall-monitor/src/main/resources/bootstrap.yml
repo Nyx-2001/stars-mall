@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mall-admin
+  cloud:
+    nacos:
+      discovery:
+        server-addr: :8848

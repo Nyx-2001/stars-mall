@@ -1,0 +1,6 @@
+# Project exclude paths
+/mall-admin/target/
+/mall-auth/target/
+/mall-common/target/
+/mall-gateway/target/
+#/**/src/main/resources/

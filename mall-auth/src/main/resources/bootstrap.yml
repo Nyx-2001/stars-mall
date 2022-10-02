@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: mall-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: :8848
+      config:
+        server-addr: :8848
+        file-extension: yaml
+
+#dubbo:
+#  scan:
+#    base-packages: com.starsofocean.mallAuth.service
+#  protocol:
+#    name: dubbo
+#    port: -1
+#  registry:
+#    address: spring-cloud://
+

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: :8848
+      config:
+        server-addr: :8848
+        file-extension: yaml
