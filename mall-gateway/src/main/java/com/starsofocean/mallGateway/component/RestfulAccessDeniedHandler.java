@@ -1,7 +1,7 @@
 package com.starsofocean.mallGateway.component;
 
 import cn.hutool.json.JSONUtil;
-import com.starsofocean.mallCommon.api.CR;
+import com.starsofocean.mallCommon.api.CommonResult;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class RestfulAccessDeniedHandler implements ServerAccessDeniedHandler {
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getHeaders().set("Access-Control-Allow-Origin","*");
         response.getHeaders().set("Cache-Control","no-cache");
-        String body= JSONUtil.toJsonStr(CR.forbidden(denied.getMessage()));
+        String body= JSONUtil.toJsonStr(CommonResult.forbidden(denied.getMessage()));
         DataBuffer buffer =  response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
         return response.writeWith(Mono.just(buffer));
     }

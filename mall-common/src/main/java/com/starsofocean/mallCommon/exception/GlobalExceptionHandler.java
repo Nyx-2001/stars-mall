@@ -1,6 +1,6 @@
 package com.starsofocean.mallCommon.exception;
 
-import com.starsofocean.mallCommon.api.CR;
+import com.starsofocean.mallCommon.api.CommonResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = ApiException.class)
-    public CR handle(ApiException e) {
+    public CommonResult handle(ApiException e) {
         if (e.getErrorCode() != null) {
-            return CR.failed(e.getErrorCode());
+            return CommonResult.failed(e.getErrorCode());
         }
-        return CR.failed(e.getMessage());
+        return CommonResult.failed(e.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public CR handleValidException(MethodArgumentNotValidException e) {
+    public CommonResult handleValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
         if (bindingResult.hasErrors()) {
@@ -35,12 +35,12 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField()+fieldError.getDefaultMessage();
             }
         }
-        return CR.validateFailed(message);
+        return CommonResult.validateFailed(message);
     }
 
     @ResponseBody
     @ExceptionHandler(value = BindException.class)
-    public CR handleValidException(BindException e) {
+    public CommonResult handleValidException(BindException e) {
         BindingResult bindingResult = e.getBindingResult();
         String message = null;
         if (bindingResult.hasErrors()) {
@@ -49,6 +49,6 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField()+fieldError.getDefaultMessage();
             }
         }
-        return CR.validateFailed(message);
+        return CommonResult.validateFailed(message);
     }
 }

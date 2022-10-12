@@ -1,7 +1,7 @@
 package com.starsofocean.mallAuth.controller;
 
 import com.starsofocean.mallAuth.domain.Oauth2TokenDto;
-import com.starsofocean.mallCommon.api.CR;
+import com.starsofocean.mallCommon.api.CommonResult;
 import com.starsofocean.mallCommon.constant.AuthConstant;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
@@ -27,7 +27,7 @@ public class AuthController {
     private TokenEndpoint tokenEndpoint;
 
     @PostMapping("/token")
-    public CR<Oauth2TokenDto> postAccessToken(HttpServletRequest request,
+    public CommonResult<Oauth2TokenDto> postAccessToken(HttpServletRequest request,
                                               @RequestParam String grant_type,
                                               @RequestParam String client_id,
                                               @RequestParam String client_secret,
@@ -47,6 +47,6 @@ public class AuthController {
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
                 .tokenHead(AuthConstant.JWT_TOKEN_PREFIX).build();
-        return CR.success(oauth2TokenDto);
+        return CommonResult.success(oauth2TokenDto);
     }
 }

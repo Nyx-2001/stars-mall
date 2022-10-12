@@ -32,24 +32,23 @@ import java.util.List;
  * @author starsofocean
  * date 2022/9/23 23:36
  */
+@AllArgsConstructor
 @Configuration
 @EnableAuthorizationServer
 public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
-    @Resource
-    private  PasswordEncoder passwordEncoder;
-    @Resource
-    private  AuthenticationManager authenticationManager;
-    @Resource
-    private UserServiceImpl userService;
 //    @Resource
-//    private UserDetailsService userDetailsService;
-//
-    @Resource
-    private  JwtTokenEnhancer jwtTokenEnhancer;
-//    @Resource(name = "jwtTokenStore")
-//    private TokenStore tokenStore;
-//    @Resource(name = "jwtAccessTokenConverter")
-//    private JwtAccessTokenConverter jwtAccessTokenConverter;
+//    private  PasswordEncoder passwordEncoder;
+//    @Resource
+//    private  AuthenticationManager authenticationManager;
+//    @Resource
+//    private UserServiceImpl userService;
+//    @Resource
+//    private  JwtTokenEnhancer jwtTokenEnhancer;
+
+    private final PasswordEncoder passwordEncoder;
+    private final UserServiceImpl userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenEnhancer jwtTokenEnhancer;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -84,7 +83,7 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         delegates.add(accessTokenConverter());
         enhancerChain.setTokenEnhancers(delegates); //配置JWT的内容增强器
         endpoints.authenticationManager(authenticationManager)
-                .userDetailsService(userService) //配置加载用户信息的服务
+                .userDetailsService(userDetailsService) //配置加载用户信息的服务
                 .accessTokenConverter(accessTokenConverter())
                 .tokenEnhancer(enhancerChain);
     }

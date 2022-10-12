@@ -20,5 +20,4 @@ public class UserDto {
     private Integer status;
     private String clientId;
     private List<String> roles;
-
 }

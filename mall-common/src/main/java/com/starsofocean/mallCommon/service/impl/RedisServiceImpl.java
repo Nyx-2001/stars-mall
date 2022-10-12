@@ -4,6 +4,7 @@ import com.starsofocean.mallCommon.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * date 2022/9/27 17:21
  */
 public class RedisServiceImpl implements RedisService {
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override

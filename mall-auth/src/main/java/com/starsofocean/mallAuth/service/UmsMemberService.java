@@ -1,6 +1,6 @@
 package com.starsofocean.mallAuth.service;
 
-import com.starsofocean.mallAuth.domain.UserDto;
+import com.starsofocean.mallCommon.domain.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

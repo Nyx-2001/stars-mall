@@ -1,6 +1,5 @@
 package com.starsofocean.mallGateway.authorization;
 
-
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;

@@ -2,11 +2,10 @@ package com.starsofocean.mallAuth.service.impl;
 
 import com.starsofocean.mallAuth.constant.MessageConstant;
 import com.starsofocean.mallAuth.domain.SecurityUser;
-import com.starsofocean.mallAuth.domain.UserDto;
 import com.starsofocean.mallAuth.service.UmsAdminService;
 import com.starsofocean.mallAuth.service.UmsMemberService;
 import com.starsofocean.mallCommon.constant.AuthConstant;
-import lombok.Builder;
+import com.starsofocean.mallCommon.domain.UserDto;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;

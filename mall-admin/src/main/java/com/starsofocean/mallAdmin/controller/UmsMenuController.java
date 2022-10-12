@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.UmsMenu;
 import com.starsofocean.mallAdmin.dto.UmsMenuNode;
 import com.starsofocean.mallAdmin.service.UmsMenuService;
-import com.starsofocean.mallCommon.api.CR;
+import com.starsofocean.mallCommon.api.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,7 +23,7 @@ import java.util.List;
 public class UmsMenuController {
 
     @Resource
-    private UmsMenuService umsMenuService;
+    private UmsMenuService menuService;
 
     /**
      * 添加菜单
@@ -31,13 +31,13 @@ public class UmsMenuController {
      * @return
      */
     @PostMapping("/create")
-    public CR create(@RequestBody UmsMenu umsMenu) {
+    public CommonResult create(@RequestBody UmsMenu umsMenu) {
         umsMenu.setCreateTime(new Date());
-        boolean flag = umsMenuService.save(umsMenu);
+        boolean flag = menuService.save(umsMenu);
         if (flag) {
-            return CR.success(flag,"添加菜单成功!!!");
+            return CommonResult.success(flag,"添加菜单成功!!!");
         }
-        return CR.failed("添加菜单失败!!!");
+        return CommonResult.failed("添加菜单失败!!!");
     }
 
     /**
@@ -47,14 +47,14 @@ public class UmsMenuController {
      * @return
      */
     @PostMapping("/update/{id}")
-    public CR update(@PathVariable Long id,@RequestBody UmsMenu umsMenu) {
+    public CommonResult update(@PathVariable Long id,@RequestBody UmsMenu umsMenu) {
         LambdaQueryWrapper<UmsMenu> menuLambdaQueryWrapper=new LambdaQueryWrapper<>();
         menuLambdaQueryWrapper.eq(UmsMenu::getId,id);
-        boolean flag = umsMenuService.update(umsMenu, menuLambdaQueryWrapper);
+        boolean flag = menuService.update(umsMenu, menuLambdaQueryWrapper);
         if (flag) {
-            return CR.success(flag,"菜单修改成功!!!");
+            return CommonResult.success(flag,"菜单修改成功!!!");
         }
-        return CR.failed("菜单修改失败!!!");
+        return CommonResult.failed("菜单修改失败!!!");
     }
 
     /**
@@ -63,12 +63,12 @@ public class UmsMenuController {
      * @return
      */
     @GetMapping("/{id}")
-    public CR<UmsMenu> getDetail(@PathVariable Long id) {
-        UmsMenu menu = umsMenuService.getById(id);
+    public CommonResult<UmsMenu> getDetail(@PathVariable Long id) {
+        UmsMenu menu = menuService.getById(id);
         if(menu != null) {
-            return CR.success(menu);
+            return CommonResult.success(menu);
         }
-        return CR.failed();
+        return CommonResult.failed();
     }
 
     /**
@@ -77,12 +77,12 @@ public class UmsMenuController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public CR delete(@PathVariable Long id) {
-        boolean flag = umsMenuService.removeById(id);
+    public CommonResult delete(@PathVariable Long id) {
+        boolean flag = menuService.removeById(id);
         if(flag) {
-            return CR.success(flag,"删除菜单成功!!!");
+            return CommonResult.success(flag,"删除菜单成功!!!");
         }
-        return CR.failed();
+        return CommonResult.failed();
     }
 
     /**
@@ -90,12 +90,12 @@ public class UmsMenuController {
      * @return
      */
     @GetMapping("/list/{parentId}")
-    public CR<Page<UmsMenu>> list(Integer pageNum ,Integer pageSize, @PathVariable Long parentId) {
+    public CommonResult<Page<UmsMenu>> list(Integer pageNum ,Integer pageSize, @PathVariable Long parentId) {
         Page<UmsMenu> pageInfo = new Page<>(pageNum,pageSize);
         LambdaQueryWrapper<UmsMenu> menuLambdaQueryWrapper=new LambdaQueryWrapper<>();
         menuLambdaQueryWrapper.eq(UmsMenu::getParentId,parentId);
-        umsMenuService.page(pageInfo,menuLambdaQueryWrapper);
-        return CR.success(pageInfo);
+        menuService.page(pageInfo,menuLambdaQueryWrapper);
+        return CommonResult.success(pageInfo);
     }
 
     /**
@@ -103,9 +103,9 @@ public class UmsMenuController {
      * @return
      */
     @GetMapping("/treeList")
-    public CR<List<UmsMenuNode>> treeList() {
-        List<UmsMenuNode> umsMenuNodes = umsMenuService.treeList();
-        return CR.success(umsMenuNodes);
+    public CommonResult<List<UmsMenuNode>> treeList() {
+        List<UmsMenuNode> umsMenuNodes = menuService.treeList();
+        return CommonResult.success(umsMenuNodes);
     }
 
     /**
@@ -115,13 +115,13 @@ public class UmsMenuController {
      * @return
      */
     @PostMapping("/updateHidden/{id}")
-    public CR updateHidden(@PathVariable Long id,Integer hidden) {
+    public CommonResult updateHidden(@PathVariable Long id,Integer hidden) {
         LambdaUpdateWrapper<UmsMenu> menuLambdaUpdateWrapper=new LambdaUpdateWrapper<>();
         menuLambdaUpdateWrapper.eq(UmsMenu::getId,id).set(UmsMenu::getHidden,hidden);
-        boolean update = umsMenuService.update(menuLambdaUpdateWrapper);
+        boolean update = menuService.update(menuLambdaUpdateWrapper);
         if(update) {
-            return CR.success(update,"菜单显示状态已修改!!!");
+            return CommonResult.success(update,"菜单显示状态已修改!!!");
         }
-        return CR.failed();
+        return CommonResult.failed();
     }
 }

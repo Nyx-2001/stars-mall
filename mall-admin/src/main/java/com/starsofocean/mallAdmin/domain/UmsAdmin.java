@@ -37,5 +37,4 @@ public class UmsAdmin implements Serializable {
 
     private Integer status;
 
-
 }
