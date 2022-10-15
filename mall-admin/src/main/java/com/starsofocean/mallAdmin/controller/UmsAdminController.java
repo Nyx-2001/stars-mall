@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class UmsAdminController {
     private UmsAdminService adminService;
     @Resource
     private UmsRoleService roleService;
+//    @Resource
+//    private HttpServletRequest request;
 
     /**
      * 注册

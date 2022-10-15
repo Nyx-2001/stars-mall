@@ -36,14 +36,6 @@ import java.util.List;
 @Configuration
 @EnableAuthorizationServer
 public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
-//    @Resource
-//    private  PasswordEncoder passwordEncoder;
-//    @Resource
-//    private  AuthenticationManager authenticationManager;
-//    @Resource
-//    private UserServiceImpl userService;
-//    @Resource
-//    private  JwtTokenEnhancer jwtTokenEnhancer;
 
     private final PasswordEncoder passwordEncoder;
     private final UserServiceImpl userDetailsService;
@@ -70,13 +62,6 @@ public class Oauth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-//        endpoints.authenticationManager(authenticationManager)
-//                .userDetailsService(userService)
-//                // 设置token转换器
-//                .accessTokenConverter(accessTokenConverter());
-//        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer, accessTokenConverter()));
-//        endpoints.tokenEnhancer(tokenEnhancerChain);
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>();
         delegates.add(jwtTokenEnhancer);

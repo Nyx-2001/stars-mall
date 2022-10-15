@@ -11,7 +11,9 @@ import com.starsofocean.mallAdmin.service.UmsRoleResourceRelationService;
 import com.starsofocean.mallAdmin.service.UmsRoleService;
 import com.starsofocean.mallCommon.constant.AuthConstant;
 import com.starsofocean.mallCommon.service.RedisService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UmsResourceServiceImpl extends ServiceImpl<UmsResourceMapper, UmsResource> implements UmsResourceService {
+    @Lazy
     @Resource
     private UmsRoleService roleService;
     @Resource

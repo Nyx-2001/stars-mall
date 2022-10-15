@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.starsofocean.mallAdmin.domain.*;
 import com.starsofocean.mallAdmin.mapper.UmsRoleMapper;
 import com.starsofocean.mallAdmin.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> implements UmsRoleService {
     @Resource
     private UmsMenuService menuService;
+    @Lazy
     @Resource
     private UmsResourceService resourceService;
     @Resource

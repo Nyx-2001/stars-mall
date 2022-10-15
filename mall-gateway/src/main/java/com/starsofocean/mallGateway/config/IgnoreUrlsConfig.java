@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Data
 @Component
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix="secure.ignore")
 public class IgnoreUrlsConfig {
-    private List<String>urls;
+    private List<String> urls;
 }

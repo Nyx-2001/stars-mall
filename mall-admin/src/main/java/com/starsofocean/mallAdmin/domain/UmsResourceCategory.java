@@ -14,5 +14,5 @@ public class UmsResourceCategory implements Serializable {
     private Long id;
     private Date createTime;
     private String name;
-    private int sort;
+    private Integer sort;
 }

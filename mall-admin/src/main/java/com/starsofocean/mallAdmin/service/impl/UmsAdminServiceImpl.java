@@ -7,6 +7,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.nimbusds.jose.JWSObject;
 import com.starsofocean.mallAdmin.domain.UmsAdmin;
 import com.starsofocean.mallAdmin.domain.UmsAdminLoginLog;
 import com.starsofocean.mallAdmin.domain.UmsAdminRoleRelation;
@@ -22,17 +23,21 @@ import com.starsofocean.mallCommon.constant.AuthConstant;
 import com.starsofocean.mallCommon.domain.UserDto;
 import com.starsofocean.mallCommon.exception.Asserts;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "admin")
 public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> implements UmsAdminService {
     @Resource
     private AuthService authService;
@@ -80,21 +85,28 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
         return accessToken;
     }
 
+    @Transactional
+    @Cacheable(cacheNames = "userList")
     @Override
     public UmsAdmin getCurrentAdmin() {
-        String userStr = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
+
+        String token = request.getHeader(AuthConstant.JWT_TOKEN_HEADER);
+        String userStr = null;
+        try {
+            String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
+            JWSObject jwsObject = JWSObject.parse(realToken);
+            userStr = jwsObject.getPayload().toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        String userStr = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
         if(StrUtil.isEmpty(userStr)){
             Asserts.fail(ResultCode.UNAUTHORIZED);
         }
         UserDto userDto = JSONUtil.toBean(userStr, UserDto.class);
-        UmsAdmin admin = getCacheService().getAdmin(userDto.getId());
-        if(admin!=null){
-            return admin;
-        }else{
-            admin = this.getById(userDto.getId());
-            getCacheService().setAdmin(admin);
-            return admin;
-        }
+        UmsAdmin admin = this.getById(userDto.getId());
+        return admin;
     }
 
     @Override

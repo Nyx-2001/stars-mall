@@ -41,6 +41,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private IgnoreUrlsConfig ignoreUrlsConfig;
+
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
         ServerHttpRequest request = authorizationContext.getExchange().getRequest();
