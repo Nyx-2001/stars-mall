@@ -5,17 +5,16 @@ import com.starsofocean.mallAdmin.domain.UmsResource;
 import com.starsofocean.mallAdmin.domain.UmsRole;
 import com.starsofocean.mallAdmin.domain.UmsRoleResourceRelation;
 import com.starsofocean.mallAdmin.mapper.UmsResourceMapper;
-import com.starsofocean.mallAdmin.service.UmsResourceCategoryService;
 import com.starsofocean.mallAdmin.service.UmsResourceService;
 import com.starsofocean.mallAdmin.service.UmsRoleResourceRelationService;
 import com.starsofocean.mallAdmin.service.UmsRoleService;
 import com.starsofocean.mallCommon.constant.AuthConstant;
 import com.starsofocean.mallCommon.service.RedisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +38,7 @@ public class UmsResourceServiceImpl extends ServiceImpl<UmsResourceMapper, UmsRe
     @Value("${spring.application.name}")
     private String applicationName;
 
+    @PostConstruct
     @Override
     public Map<String, List<String>> initResourceRoleMap() {
         Map<String,List<String>> resourceRoleMap = new TreeMap<>();
