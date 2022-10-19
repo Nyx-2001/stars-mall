@@ -1,6 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.PmsProduct;
 import com.starsofocean.mallAdmin.dto.PmsProductParam;
@@ -30,7 +29,7 @@ public class PmsProductController {
      */
     @PostMapping("/create")
     public CommonResult create(@RequestBody PmsProductParam productParam) {
-
+        productService.createProduct(productParam);
         return null;
     }
 
@@ -72,16 +71,7 @@ public class PmsProductController {
     public CommonResult<Page<PmsProduct>> getList(PmsProductQueryParam productQueryParam,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<PmsProduct> pageInfo=new Page<>(pageNum,pageSize);
-        LambdaQueryWrapper<PmsProduct> productLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        productLambdaQueryWrapper.eq(PmsProduct::getDeleteStatus,0)
-        .eq(productQueryParam.getPublishStatus() != null,PmsProduct::getPublishStatus,productQueryParam.getPublishStatus())
-        .eq(productQueryParam.getVerifyStatus() != null,PmsProduct::getVerifyStatus,productQueryParam.getVerifyStatus())
-        .eq(productQueryParam.getProductSn() != null,PmsProduct::getProductSn,productQueryParam.getProductSn())
-        .eq(productQueryParam.getProductCategoryId() != null,PmsProduct::getProductCategoryId,productQueryParam.getProductCategoryId())
-        .eq(productQueryParam.getBrandId() != null,PmsProduct::getBrandId,productQueryParam.getBrandId())
-        .like(productQueryParam.getKeyword() != null,PmsProduct::getName,productQueryParam.getKeyword());
-        productService.page(pageInfo,productLambdaQueryWrapper);
+        Page<PmsProduct> pageInfo = productService.getPageInfo(productQueryParam, pageSize, pageNum);
         return CommonResult.success(pageInfo);
     }
 }
