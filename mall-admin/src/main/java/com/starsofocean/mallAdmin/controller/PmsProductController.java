@@ -11,7 +11,6 @@ import com.starsofocean.mallCommon.api.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author starsofocean
@@ -36,13 +35,12 @@ public class PmsProductController {
     }
 
     /**
-     *根据商品id获取商品编辑信息(sql还没写)
+     *根据商品id获取商品编辑信息
      * @param id
      * @return
      */
     @GetMapping("/updateInfo/{id}")
     public CommonResult<PmsProductResult> getUpdateInfo(@PathVariable Long id) {
-        //productService.getUpdateInfo(Long id)还没写
         PmsProductResult productResult = productService.getUpdateInfo(id);
         return CommonResult.success(productResult);
     }
@@ -53,7 +51,7 @@ public class PmsProductController {
      * @param productParam
      * @return
      */
-    @GetMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody PmsProductParam productParam) {
         //productService.updateProduct(Long id,PmsProductParam productParam)还没写
         int count = productService.updateProduct(id, productParam);

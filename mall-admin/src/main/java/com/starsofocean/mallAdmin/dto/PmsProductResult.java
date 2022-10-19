@@ -9,5 +9,6 @@ import lombok.Data;
  */
 @Data
 public class PmsProductResult extends PmsProductParam{
+    //商品所选分类的父id
     private Long cateParentId;
 }
