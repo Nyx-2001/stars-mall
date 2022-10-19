@@ -89,18 +89,7 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
     @Cacheable(cacheNames = "userList")
     @Override
     public UmsAdmin getCurrentAdmin() {
-
-        String token = request.getHeader(AuthConstant.JWT_TOKEN_HEADER);
-        String userStr = null;
-        try {
-            String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
-            JWSObject jwsObject = JWSObject.parse(realToken);
-            userStr = jwsObject.getPayload().toString();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-//        String userStr = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
+        String userStr = request.getHeader(AuthConstant.USER_TOKEN_HEADER);
         if(StrUtil.isEmpty(userStr)){
             Asserts.fail(ResultCode.UNAUTHORIZED);
         }
