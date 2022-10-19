@@ -1,6 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,13 +11,11 @@ import com.starsofocean.mallAdmin.dto.UpdateAdminPasswordParam;
 import com.starsofocean.mallAdmin.service.UmsAdminService;
 import com.starsofocean.mallAdmin.service.UmsRoleService;
 import com.starsofocean.mallCommon.api.CommonResult;
-import com.starsofocean.mallCommon.api.CommonResult;
 import com.starsofocean.mallCommon.domain.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
