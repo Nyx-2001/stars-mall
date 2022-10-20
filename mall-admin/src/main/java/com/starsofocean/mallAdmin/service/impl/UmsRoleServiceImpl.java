@@ -1,11 +1,11 @@
 package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.starsofocean.mallAdmin.domain.*;
 import com.starsofocean.mallAdmin.mapper.UmsRoleMapper;
 import com.starsofocean.mallAdmin.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -108,5 +108,26 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
             return count;
         }
         return 0;
+    }
+
+    @Override
+    public Page<UmsRole> getPageInfo(String keyword, Integer pageNum, Integer pageSize) {
+        Page<UmsRole> pageInfo=new Page<>(pageNum,pageSize);
+        LambdaQueryWrapper<UmsRole> roleLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        roleLambdaQueryWrapper.like(keyword != null,UmsRole::getName,keyword);
+        this.page(pageInfo,roleLambdaQueryWrapper);
+        return pageInfo;
+    }
+
+    @Override
+    public int updateStatus(Long id, Integer status) {
+        int count=0;
+        UmsRole role = this.getById(id);
+        role.setStatus(status);
+        boolean b = this.updateById(role);
+        if(b) {
+            count=1;
+        }
+        return count;
     }
 }

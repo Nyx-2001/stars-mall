@@ -1,6 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.UmsMenu;
 import com.starsofocean.mallAdmin.domain.UmsResource;
@@ -46,9 +45,9 @@ public class UmsRoleController {
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id,@RequestBody UmsRole role) {
         role.setId(id);
-        boolean b = roleService.updateById(role);
-        if(b) {
-            return CommonResult.success(b);
+        boolean update = roleService.updateById(role);
+        if(update) {
+            return CommonResult.success(update);
         }
         return CommonResult.failed();
     }
@@ -60,9 +59,9 @@ public class UmsRoleController {
      */
     @DeleteMapping("/delete")
     public CommonResult delete(List<Long> ids) {
-        boolean b = roleService.removeByIds(ids);
-        if(b) {
-            return CommonResult.success(b);
+        boolean delete = roleService.removeByIds(ids);
+        if(delete) {
+            return CommonResult.success(delete);
         }
         return CommonResult.failed();
     }
@@ -88,10 +87,7 @@ public class UmsRoleController {
     public CommonResult<Page<UmsRole>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<UmsRole> pageInfo=new Page<>(pageNum,pageSize);
-        LambdaQueryWrapper<UmsRole> roleLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        roleLambdaQueryWrapper.like(keyword != null,UmsRole::getName,keyword);
-        roleService.page(pageInfo,roleLambdaQueryWrapper);
+        Page<UmsRole> pageInfo = roleService.getPageInfo(keyword, pageNum, pageSize);
         return CommonResult.success(pageInfo);
     }
 
@@ -103,11 +99,9 @@ public class UmsRoleController {
      */
     @PostMapping("/updateStatus/{id}")
     public CommonResult updateStatus(@PathVariable Long id,@RequestParam(value = "status") Integer status) {
-        UmsRole role = roleService.getById(id);
-        role.setStatus(status);
-        boolean b = roleService.updateById(role);
-        if(b) {
-            return CommonResult.success(b);
+        int count = roleService.updateStatus(id, status);
+        if(count>0) {
+            return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
