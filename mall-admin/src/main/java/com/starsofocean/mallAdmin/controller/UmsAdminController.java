@@ -30,8 +30,6 @@ public class UmsAdminController {
     private UmsAdminService adminService;
     @Resource
     private UmsRoleService roleService;
-//    @Resource
-//    private HttpServletRequest request;
 
     /**
      * 注册

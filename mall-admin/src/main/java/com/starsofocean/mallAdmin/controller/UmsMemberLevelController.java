@@ -1,10 +1,11 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.starsofocean.mallAdmin.domain.UmsMemberLevel;
 import com.starsofocean.mallAdmin.service.UmsMemberLevelService;
 import com.starsofocean.mallCommon.api.CommonResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -30,9 +31,7 @@ public class UmsMemberLevelController {
      */
     @GetMapping("/list")
     public CommonResult<List<UmsMemberLevel>> list(Integer defaultStatus) {
-        LambdaQueryWrapper<UmsMemberLevel> levelLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        levelLambdaQueryWrapper.eq(UmsMemberLevel::getDefaultStatus,defaultStatus);
-        List<UmsMemberLevel> memberLevelList = memberLevelService.list(levelLambdaQueryWrapper);
+        List<UmsMemberLevel> memberLevelList = memberLevelService.getList(defaultStatus);
         return CommonResult.success(memberLevelList);
     }
 }
