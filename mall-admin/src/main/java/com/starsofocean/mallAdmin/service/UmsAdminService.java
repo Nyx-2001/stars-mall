@@ -1,5 +1,6 @@
 package com.starsofocean.mallAdmin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.starsofocean.mallAdmin.domain.UmsAdmin;
 import com.starsofocean.mallAdmin.domain.UmsRole;
@@ -30,4 +31,10 @@ public interface UmsAdminService extends IService<UmsAdmin> {
     int updateRole(Long adminId, List<Long> roleIds);
 
     List<UmsRole> getRoleList(Long adminId);
+
+    Page<UmsAdmin> getPageInfo(int pageNum, int pageSize, String keyword);
+
+    int updateUser(Long id, UmsAdmin admin);
+
+    int updateStatus(Long id, Integer status);
 }

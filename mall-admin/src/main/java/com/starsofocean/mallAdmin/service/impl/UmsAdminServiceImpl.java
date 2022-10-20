@@ -6,8 +6,9 @@ import cn.hutool.crypto.digest.BCrypt;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nimbusds.jose.JWSObject;
 import com.starsofocean.mallAdmin.domain.UmsAdmin;
 import com.starsofocean.mallAdmin.domain.UmsAdminLoginLog;
 import com.starsofocean.mallAdmin.domain.UmsAdminRoleRelation;
@@ -32,8 +33,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -175,6 +178,42 @@ public class UmsAdminServiceImpl extends ServiceImpl<UmsAdminMapper, UmsAdmin> i
         List<Long> roleIds = adminRoleRelationList.stream().map(UmsAdminRoleRelation::getRoleId).collect(Collectors.toList());
         List<UmsRole> roleList = roleService.listByIds(roleIds);
         return roleList;
+    }
+
+    @Override
+    public Page<UmsAdmin> getPageInfo(int pageNum, int pageSize, String keyword) {
+        Page<UmsAdmin> pageInfo=new Page<>(pageNum,pageSize);
+        LambdaQueryWrapper<UmsAdmin> adminLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        adminLambdaQueryWrapper.like(StringUtils.isNotEmpty(keyword),UmsAdmin::getUsername,keyword)
+                .or().like(StringUtils.isNotEmpty(keyword),UmsAdmin::getNickName,keyword);
+        this.page(pageInfo,adminLambdaQueryWrapper);
+        return pageInfo;
+    }
+
+    @Override
+    public int updateUser(Long id, UmsAdmin admin) {
+        int count=0;
+        LambdaQueryWrapper<UmsAdmin> adminLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        adminLambdaQueryWrapper.eq(UmsAdmin::getId,id);
+        boolean update = this.update(admin, adminLambdaQueryWrapper);
+        if(update) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int updateStatus(Long id, Integer status) {
+        int count=0;
+        UmsAdmin admin = new UmsAdmin();
+        admin.setStatus(status);
+        LambdaQueryWrapper<UmsAdmin> adminLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        adminLambdaQueryWrapper.eq(UmsAdmin::getId, id);
+        boolean update = this.update(admin, adminLambdaQueryWrapper);
+        if(update) {
+            count=1;
+        }
+        return count;
     }
 
 

@@ -1,7 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.UmsAdmin;
 import com.starsofocean.mallAdmin.domain.UmsRole;
@@ -88,11 +86,7 @@ public class UmsAdminController {
      */
     @GetMapping("/list")
     public CommonResult<Page<UmsAdmin>> list(int pageNum,int pageSize,String keyword) {
-        Page<UmsAdmin> pageInfo=new Page<>(pageNum,pageSize);
-        LambdaQueryWrapper<UmsAdmin> adminLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        adminLambdaQueryWrapper.like(StringUtils.isNotEmpty(keyword),UmsAdmin::getUsername,keyword)
-                .or().like(StringUtils.isNotEmpty(keyword),UmsAdmin::getNickName,keyword);
-        adminService.page(pageInfo,adminLambdaQueryWrapper);
+        Page<UmsAdmin> pageInfo = adminService.getPageInfo(pageNum, pageSize, keyword);
         return CommonResult.success(pageInfo);
     }
 
@@ -115,11 +109,9 @@ public class UmsAdminController {
      */
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody UmsAdmin admin) {
-        LambdaQueryWrapper<UmsAdmin> adminLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        adminLambdaQueryWrapper.eq(UmsAdmin::getId,id);
-        boolean flag = adminService.update(admin, adminLambdaQueryWrapper);
-        if(flag) {
-            return CommonResult.success(flag);
+        int count = adminService.updateUser(id, admin);
+        if(count>0) {
+            return CommonResult.success(count);
         }
         return CommonResult.failed("修改用户信息失败!!!");
     }
@@ -132,13 +124,9 @@ public class UmsAdminController {
      */
     @PostMapping("/updateStatus/{id}")
     public CommonResult updateStatus(@PathVariable Long id,@RequestParam(value = "status") Integer status) {
-        UmsAdmin umsAdmin = new UmsAdmin();
-        umsAdmin.setStatus(status);
-        LambdaQueryWrapper<UmsAdmin> adminLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        adminLambdaQueryWrapper.eq(UmsAdmin::getId, id);
-        boolean flag = adminService.update(umsAdmin, adminLambdaQueryWrapper);
-        if (flag) {
-            return CommonResult.success(flag);
+        int count = adminService.updateStatus(id, status);
+        if (count>0) {
+            return CommonResult.success(count);
         }
         return CommonResult.failed("修改用户状态失败!!!");
     }
@@ -172,9 +160,9 @@ public class UmsAdminController {
      */
     @DeleteMapping("/delete/{id}")
     public CommonResult delete (@PathVariable Long id) {
-        boolean flag = adminService.removeById(id);
-        if(flag) {
-            return CommonResult.success(flag);
+        boolean delete = adminService.removeById(id);
+        if(delete) {
+            return CommonResult.success(delete);
         }
         return CommonResult.failed();
     }
