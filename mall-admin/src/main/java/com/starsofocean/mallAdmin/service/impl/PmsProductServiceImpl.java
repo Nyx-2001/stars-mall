@@ -13,7 +13,7 @@ import com.starsofocean.mallAdmin.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
@@ -44,6 +44,9 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
     private CmsSubjectProductRelationService subjectProductRelationService;
     @Resource
     private CmsPrefrenceAreaProductRelationService prefrenceAreaProductRelationService;
+    @Resource
+    private PmsProductVerifyRecordService productVerifyRecordService;
+
     @Override
     public PmsProductResult getUpdateInfo(Long id) {
         PmsProduct product = this.getById(id);
@@ -136,6 +139,98 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
                 .like(productQueryParam.getKeyword() != null,PmsProduct::getName,productQueryParam.getKeyword());
         this.page(pageInfo,productLambdaQueryWrapper);
         return pageInfo;
+    }
+
+    @Override
+    public List<PmsProduct> simpleList(String keyWord) {
+        LambdaQueryWrapper<PmsProduct> PLQW=new LambdaQueryWrapper<>();
+        PLQW.like(StringUtils.isNotBlank(keyWord),PmsProduct::getName,keyWord)
+                .or().like(StringUtils.isNotBlank(keyWord),PmsProduct::getProductSn,keyWord);
+        List<PmsProduct> productList = this.list(PLQW);
+        return productList;
+    }
+
+    @Override
+    public int updatePublishStatus(List<Long> ids, Integer publishStatus) {
+        int count;
+        List<PmsProduct> productList = this.listByIds(ids);
+        List<PmsProduct> products = productList.stream().map(item -> {
+            item.setPublishStatus(publishStatus);
+            return item;
+        }).collect(Collectors.toList());
+        this.updateBatchById(products);
+        count=1;
+        return count;
+    }
+
+    @Override
+    public int updateVerifyStatus(List<Long> ids, Integer verifyStatus, String detail) {
+        int count=0;
+        List<PmsProduct> productList = this.listByIds(ids);
+        List<PmsProduct> products = productList.stream().map(item -> {
+            item.setVerifyStatus(verifyStatus);
+            return item;
+        }).collect(Collectors.toList());
+        this.updateBatchById(products);
+        List<PmsProductVerifyRecord> recordList = ids.stream().map(item -> {
+            PmsProductVerifyRecord record = new PmsProductVerifyRecord();
+            record.setProductId(item);
+            record.setCreateTime(new Date());
+            record.setDetail(detail);
+            record.setStatus(verifyStatus);
+            record.setVertifyMan("test");
+            return record;
+        }).collect(Collectors.toList());
+        boolean b = productVerifyRecordService.saveBatch(recordList);
+        if(b) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int updateRecommendStatus(List<Long> ids, Integer recommendStatus) {
+        int count=0;
+        List<PmsProduct> productList = this.listByIds(ids);
+        List<PmsProduct> products = productList.stream().map(item -> {
+            item.setRecommandStatus(recommendStatus);
+            return item;
+        }).collect(Collectors.toList());
+        boolean b = this.updateBatchById(products);
+        if(b) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int updateNewStatus(List<Long> ids, Integer newStatus) {
+        int count=0;
+        List<PmsProduct> productList = this.listByIds(ids);
+        List<PmsProduct> products = productList.stream().map(item -> {
+            item.setNewStatus(newStatus);
+            return item;
+        }).collect(Collectors.toList());
+        boolean b = this.updateBatchById(products);
+        if(b) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int updateDeleteStatus(List<Long> ids, Integer deleteStatus) {
+        int count=0;
+        List<PmsProduct> productList = this.listByIds(ids);
+        List<PmsProduct> products = productList.stream().map(item -> {
+            item.setDeleteStatus(deleteStatus);
+            return item;
+        }).collect(Collectors.toList());
+        boolean b = this.updateBatchById(products);
+        if(b) {
+            count=1;
+        }
+        return count;
     }
 
 

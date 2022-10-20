@@ -10,6 +10,7 @@ import com.starsofocean.mallCommon.api.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author starsofocean
@@ -73,4 +74,63 @@ public class PmsProductController {
         Page<PmsProduct> pageInfo = productService.getPageInfo(productQueryParam, pageSize, pageNum);
         return CommonResult.success(pageInfo);
     }
+
+    //根据商品名称或者货号模糊查询
+    @GetMapping("/simpleList")
+    public CommonResult<List<PmsProduct>> getList(String keyWord) {
+        List<PmsProduct> productList = productService.simpleList(keyWord);
+        return CommonResult.success(productList);
+    }
+
+    //批量上下架
+    @PostMapping("/update/publishStatus")
+    public CommonResult updatePublishStatus(List<Long> ids,Integer publishStatus) {
+        int count = productService.updatePublishStatus(ids, publishStatus);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    //批量修改审核状态
+    @PostMapping("/update/verifyStatus")
+    public CommonResult updateVerifyStatus(List<Long> ids,Integer verifyStatus,String detail) {
+        int count = productService.updateVerifyStatus(ids, verifyStatus, detail);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    //批量推荐商品
+    @PostMapping("/update/recommendStatus")
+    public CommonResult updateRecommendStatus(List<Long> ids,Integer recommendStatus) {
+        int count = productService.updateRecommendStatus(ids, recommendStatus);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    //批量设为新品
+    @PostMapping("/update/newStatus")
+    public CommonResult updateNewStatus(List<Long> ids,Integer newStatus) {
+        int count = productService.updateNewStatus(ids, newStatus);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    //批量修改删除状态
+    @PostMapping("/update/deleteStatus")
+    public CommonResult updateDeleteStatus(List<Long> ids,Integer deleteStatus) {
+        int count = productService.updateDeleteStatus(ids,deleteStatus);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+
 }
