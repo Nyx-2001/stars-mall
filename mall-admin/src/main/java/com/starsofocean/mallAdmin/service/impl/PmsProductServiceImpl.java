@@ -1,11 +1,10 @@
 package com.starsofocean.mallAdmin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.PmsProduct;
-import com.starsofocean.mallAdmin.domain.PmsProductCategory;
-import com.starsofocean.mallAdmin.domain.PmsSkuStock;
+import com.starsofocean.mallAdmin.domain.*;
 import com.starsofocean.mallAdmin.dto.PmsProductParam;
 import com.starsofocean.mallAdmin.dto.PmsProductQueryParam;
 import com.starsofocean.mallAdmin.dto.PmsProductResult;
@@ -21,6 +20,7 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author starsofocean
@@ -56,7 +56,44 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
 
     @Override
     public int updateProduct(Long id, PmsProductParam productParam) {
-        return 0;
+        int count;
+        PmsProduct product=productParam;
+        product.setId(id);
+        this.save(product);
+        //会员价格
+        LambdaQueryWrapper<PmsMemberPrice> MPLQW =new LambdaQueryWrapper<>();
+        MPLQW.eq(PmsMemberPrice::getProductId,id);
+        memberPriceService.remove(MPLQW);
+        relateAndInsertList(memberPriceService,productParam.getMemberPriceList(),id);
+        //阶梯价格
+        LambdaQueryWrapper<PmsProductLadder> PLLQW=new LambdaQueryWrapper<>();
+        PLLQW.eq(PmsProductLadder::getProductId,id);
+        productLadderService.remove(PLLQW);
+        relateAndInsertList(productLadderService,productParam.getProductLadderList(),id);
+        //满减价格
+        LambdaQueryWrapper<PmsProductFullReduction> PFRLQW=new LambdaQueryWrapper<>();
+        PFRLQW.eq(PmsProductFullReduction::getProductId,id);
+        productFullReductionService.remove(PFRLQW);
+        relateAndInsertList(productFullReductionService,productParam.getProductFullReductionList(),id);
+        //修改sku库存信息
+        handleUpdateSkuStockList(id,productParam);
+        //修改商品参数,添加自定义商品规格
+        LambdaQueryWrapper<PmsProductAttributeValue> PAVLQW=new LambdaQueryWrapper<>();
+        PAVLQW.eq(PmsProductAttributeValue::getProductId,id);
+        productAttributeValueService.remove(PAVLQW);
+        relateAndInsertList(productAttributeValueService,productParam.getProductAttributeValueList(),id);
+        //关联专题
+        LambdaQueryWrapper<CmsSubjectProductRelation> SPRLQW=new LambdaQueryWrapper<>();
+        SPRLQW.eq(CmsSubjectProductRelation::getProductId,id);
+        subjectProductRelationService.remove(SPRLQW);
+        relateAndInsertList(subjectProductRelationService,productParam.getSubjectProductRelationList(),id);
+        //关联优选
+        LambdaQueryWrapper<CmsPrefrenceAreaProductRelation> PAPRLQW=new LambdaQueryWrapper<>();
+        PAPRLQW.eq(CmsPrefrenceAreaProductRelation::getProductId,id);
+        prefrenceAreaProductRelationService.remove(PAPRLQW);
+        relateAndInsertList(prefrenceAreaProductRelationService,productParam.getPrefrenceAreaProductRelationList(),id);
+        count=1;
+        return count;
     }
 
     @Override
@@ -140,4 +177,43 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             }
         }
     }
-}
+
+    private void handleUpdateSkuStockList(Long id, PmsProductParam productParam) {
+        //当前的sku信息
+        List<PmsSkuStock> currSkuList = productParam.getSkuStockList();
+        //当前没有sku直接删除
+        if (CollUtil.isEmpty(currSkuList)) {
+            LambdaQueryWrapper<PmsSkuStock> SSLQW = new LambdaQueryWrapper<>();
+            SSLQW.eq(PmsSkuStock::getProductId, id);
+            skuStockService.remove(SSLQW);
+            return;
+        }
+        //获取初始sku信息
+        LambdaQueryWrapper<PmsSkuStock> SSLQW=new LambdaQueryWrapper<>();
+        SSLQW.eq(PmsSkuStock::getProductId,id);
+        List<PmsSkuStock> oriSkuStockList = skuStockService.list(SSLQW);
+        //获取新增sku信息
+        List<PmsSkuStock> insertSkuList = currSkuList.stream().filter(item -> item.getId() == null).collect(Collectors.toList());
+        //获取需要更新的sku信息
+        List<PmsSkuStock> updateSkuList = currSkuList.stream().filter(item -> item.getId() != null).collect(Collectors.toList());
+        List<Long> updateSkuIds = updateSkuList.stream().map(PmsSkuStock::getId).collect(Collectors.toList());
+        //获取需要删除的sku信息
+        List<PmsSkuStock> removeSkuList = oriSkuStockList.stream().filter(item -> !updateSkuIds.contains(item.getId())).collect(Collectors.toList());
+        handleSkuStockCode(insertSkuList, id);
+        handleSkuStockCode(updateSkuList, id);
+        //新增sku
+        if (CollUtil.isNotEmpty(insertSkuList)) {
+            relateAndInsertList(skuStockService, insertSkuList, id);
+        }
+        //删除sku
+        if (CollUtil.isNotEmpty(removeSkuList)) {
+            List<Long> removeSkuIds = removeSkuList.stream().map(PmsSkuStock::getId).collect(Collectors.toList());
+            skuStockService.removeBatchByIds(removeSkuIds);
+        }
+        //修改sku
+        if (CollUtil.isNotEmpty(updateSkuList)) {
+            skuStockService.updateBatchById(updateSkuList);
+        }
+    }
+
+    }

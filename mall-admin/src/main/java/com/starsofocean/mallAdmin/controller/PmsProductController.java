@@ -45,14 +45,13 @@ public class PmsProductController {
     }
 
     /**
-     *更新商品(sql还没写)
+     *更新商品
      * @param id
      * @param productParam
      * @return
      */
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody PmsProductParam productParam) {
-        //productService.updateProduct(Long id,PmsProductParam productParam)还没写
         int count = productService.updateProduct(id, productParam);
         if (count > 0) {
             return CommonResult.success(count);
