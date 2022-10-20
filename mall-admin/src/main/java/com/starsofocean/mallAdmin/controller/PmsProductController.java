@@ -30,8 +30,11 @@ public class PmsProductController {
      */
     @PostMapping("/create")
     public CommonResult create(@RequestBody PmsProductParam productParam) {
-        productService.createProduct(productParam);
-        return null;
+        int count = productService.createProduct(productParam);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
     }
 
     /**
@@ -131,6 +134,5 @@ public class PmsProductController {
         }
         return CommonResult.failed();
     }
-
 
 }
