@@ -4,9 +4,10 @@ import com.starsofocean.mallAdmin.domain.UmsAdmin;
 import com.starsofocean.mallAdmin.service.UmsAdminCacheService;
 import com.starsofocean.mallAdmin.service.UmsAdminService;
 import com.starsofocean.mallCommon.service.RedisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @author starsofocean
@@ -14,9 +15,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UmsAdminCacheServiceImpl implements UmsAdminCacheService {
-    @Autowired
+    @Resource
     private UmsAdminService adminService;
-
+    @Resource
     private RedisService redisService;
     @Value("${redis.database}")
     private String REDIS_DATABASE;

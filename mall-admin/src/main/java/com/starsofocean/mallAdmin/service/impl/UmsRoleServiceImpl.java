@@ -82,8 +82,8 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
             roleMenuRelation.setMenuId(item);
             return roleMenuRelation;
         }).collect(Collectors.toList());
-        boolean b = roleMenuRelationService.saveBatch(roleMenuRelationList);
-        if(b) {
+        boolean save = roleMenuRelationService.saveBatch(roleMenuRelationList);
+        if(save) {
             return count;
         }
         return 0;
@@ -103,8 +103,8 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
             roleResourceRelation.setResourceId(item);
             return roleResourceRelation;
         }).collect(Collectors.toList());
-        boolean b = roleResourceRelationService.saveBatch(roleResourceRelationList);
-        if(b) {
+        boolean save = roleResourceRelationService.saveBatch(roleResourceRelationList);
+        if(save) {
             return count;
         }
         return 0;
@@ -124,8 +124,8 @@ public class UmsRoleServiceImpl extends ServiceImpl<UmsRoleMapper, UmsRole> impl
         int count=0;
         UmsRole role = this.getById(id);
         role.setStatus(status);
-        boolean b = this.updateById(role);
-        if(b) {
+        boolean update = this.updateById(role);
+        if(update) {
             count=1;
         }
         return count;

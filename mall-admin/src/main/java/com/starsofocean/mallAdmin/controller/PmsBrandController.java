@@ -1,6 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.PmsBrand;
 import com.starsofocean.mallAdmin.service.PmsBrandService;
@@ -54,9 +53,9 @@ public class PmsBrandController {
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id,@RequestBody PmsBrand brand) {
         brand.setId(id);
-        boolean b = brandService.updateById(brand);
-        if(b) {
-            return CommonResult.success(b);
+        boolean update = brandService.updateById(brand);
+        if(update) {
+            return CommonResult.success(update);
         }
         return CommonResult.failed();
     }
@@ -69,9 +68,9 @@ public class PmsBrandController {
      */
     @DeleteMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
-        boolean b = brandService.removeById(id);
-        if(b) {
-            return CommonResult.success(b);
+        boolean delete = brandService.removeById(id);
+        if(delete) {
+            return CommonResult.success(delete);
         }
         return CommonResult.failed();
     }
@@ -87,10 +86,7 @@ public class PmsBrandController {
     public CommonResult<Page<PmsBrand>> getList(@RequestParam(value = "keyword", required = false) String keyword,
                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
-        Page<PmsBrand> pageInfo=new Page<>(pageNum,pageSize);
-        LambdaQueryWrapper<PmsBrand> brandLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        brandLambdaQueryWrapper.like(keyword != null,PmsBrand::getName,keyword);
-        brandService.page(pageInfo,brandLambdaQueryWrapper);
+        Page<PmsBrand> pageInfo = brandService.getPageInfo(keyword, pageNum, pageSize);
         return CommonResult.success(pageInfo);
     }
 
@@ -112,9 +108,9 @@ public class PmsBrandController {
      */
     @DeleteMapping("/delete/batch")
     public CommonResult deleteBatch(List<Long> ids) {
-        boolean b = brandService.removeByIds(ids);
-        if(b) {
-            return CommonResult.success(b);
+        boolean delete = brandService.removeByIds(ids);
+        if(delete) {
+            return CommonResult.success(delete);
         }
         return CommonResult.failed();
     }

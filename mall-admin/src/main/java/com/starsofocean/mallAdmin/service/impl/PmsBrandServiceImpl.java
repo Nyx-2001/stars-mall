@@ -1,5 +1,7 @@
 package com.starsofocean.mallAdmin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.starsofocean.mallAdmin.domain.PmsBrand;
 import com.starsofocean.mallAdmin.mapper.PmsBrandMapper;
@@ -23,8 +25,8 @@ public class PmsBrandServiceImpl extends ServiceImpl<PmsBrandMapper, PmsBrand> i
             item.setShowStatus(showStatus);
             return item;
         }).collect(Collectors.toList());
-        boolean b = this.updateBatchById(brands);
-        if(b) {
+        boolean update = this.updateBatchById(brands);
+        if(update) {
             return count;
         }
         return 0;
@@ -38,10 +40,19 @@ public class PmsBrandServiceImpl extends ServiceImpl<PmsBrandMapper, PmsBrand> i
             item.setFactoryStatus(factoryStatus);
             return item;
         }).collect(Collectors.toList());
-        boolean b = this.updateBatchById(brands);
-        if(b) {
+        boolean update = this.updateBatchById(brands);
+        if(update) {
             return count;
         }
         return 0;
+    }
+
+    @Override
+    public Page<PmsBrand> getPageInfo(String keyword, Integer pageNum, Integer pageSize) {
+        Page<PmsBrand> pageInfo=new Page<>(pageNum,pageSize);
+        LambdaQueryWrapper<PmsBrand> brandLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        brandLambdaQueryWrapper.like(keyword != null,PmsBrand::getName,keyword);
+        this.page(pageInfo,brandLambdaQueryWrapper);
+        return pageInfo;
     }
 }

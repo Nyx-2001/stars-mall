@@ -181,8 +181,8 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             record.setVertifyMan("test");
             return record;
         }).collect(Collectors.toList());
-        boolean b = productVerifyRecordService.saveBatch(recordList);
-        if(b) {
+        boolean save = productVerifyRecordService.saveBatch(recordList);
+        if(save) {
             count=1;
         }
         return count;
@@ -196,8 +196,8 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             item.setRecommandStatus(recommendStatus);
             return item;
         }).collect(Collectors.toList());
-        boolean b = this.updateBatchById(products);
-        if(b) {
+        boolean update = this.updateBatchById(products);
+        if(update) {
             count=1;
         }
         return count;
@@ -211,8 +211,8 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             item.setNewStatus(newStatus);
             return item;
         }).collect(Collectors.toList());
-        boolean b = this.updateBatchById(products);
-        if(b) {
+        boolean update = this.updateBatchById(products);
+        if(update) {
             count=1;
         }
         return count;
@@ -226,8 +226,8 @@ public class PmsProductServiceImpl extends ServiceImpl<PmsProductMapper, PmsProd
             item.setDeleteStatus(deleteStatus);
             return item;
         }).collect(Collectors.toList());
-        boolean b = this.updateBatchById(products);
-        if(b) {
+        boolean update = this.updateBatchById(products);
+        if(update) {
             count=1;
         }
         return count;

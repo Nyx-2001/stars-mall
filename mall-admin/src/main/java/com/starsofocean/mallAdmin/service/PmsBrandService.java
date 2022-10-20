@@ -1,5 +1,6 @@
 package com.starsofocean.mallAdmin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.starsofocean.mallAdmin.domain.PmsBrand;
 
@@ -13,4 +14,6 @@ public interface PmsBrandService extends IService<PmsBrand> {
     int updateShowStatus(List<Long> ids, Integer showStatus);
 
     int updateFactoryStatus(List<Long> ids, Integer factoryStatus);
+
+    Page<PmsBrand> getPageInfo(String keyword, Integer pageNum, Integer pageSize);
 }
