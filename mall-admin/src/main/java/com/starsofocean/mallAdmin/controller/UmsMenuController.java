@@ -1,7 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.UmsMenu;
 import com.starsofocean.mallAdmin.dto.UmsMenuNode;
@@ -10,7 +8,6 @@ import com.starsofocean.mallCommon.api.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.swing.*;
 import java.util.Date;
 import java.util.List;
 
@@ -33,9 +30,9 @@ public class UmsMenuController {
     @PostMapping("/create")
     public CommonResult create(@RequestBody UmsMenu umsMenu) {
         umsMenu.setCreateTime(new Date());
-        boolean flag = menuService.save(umsMenu);
-        if (flag) {
-            return CommonResult.success(flag,"添加菜单成功!!!");
+        boolean save = menuService.save(umsMenu);
+        if (save) {
+            return CommonResult.success(save,"添加菜单成功!!!");
         }
         return CommonResult.failed("添加菜单失败!!!");
     }
@@ -43,16 +40,14 @@ public class UmsMenuController {
     /**
      * 修改指定菜单
      * @param id
-     * @param umsMenu
+     * @param menu
      * @return
      */
     @PostMapping("/update/{id}")
-    public CommonResult update(@PathVariable Long id,@RequestBody UmsMenu umsMenu) {
-        LambdaQueryWrapper<UmsMenu> menuLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        menuLambdaQueryWrapper.eq(UmsMenu::getId,id);
-        boolean flag = menuService.update(umsMenu, menuLambdaQueryWrapper);
-        if (flag) {
-            return CommonResult.success(flag,"菜单修改成功!!!");
+    public CommonResult update(@PathVariable Long id,@RequestBody UmsMenu menu) {
+        int count = menuService.updateMenu(id, menu);
+        if (count>0) {
+            return CommonResult.success(count,"菜单修改成功!!!");
         }
         return CommonResult.failed("菜单修改失败!!!");
     }
@@ -65,10 +60,7 @@ public class UmsMenuController {
     @GetMapping("/{id}")
     public CommonResult<UmsMenu> getDetail(@PathVariable Long id) {
         UmsMenu menu = menuService.getById(id);
-        if(menu != null) {
-            return CommonResult.success(menu);
-        }
-        return CommonResult.failed();
+        return CommonResult.success(menu);
     }
 
     /**
@@ -78,9 +70,9 @@ public class UmsMenuController {
      */
     @DeleteMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
-        boolean flag = menuService.removeById(id);
-        if(flag) {
-            return CommonResult.success(flag,"删除菜单成功!!!");
+        boolean delete = menuService.removeById(id);
+        if(delete) {
+            return CommonResult.success(delete,"删除菜单成功!!!");
         }
         return CommonResult.failed();
     }
@@ -91,10 +83,7 @@ public class UmsMenuController {
      */
     @GetMapping("/list/{parentId}")
     public CommonResult<Page<UmsMenu>> list(Integer pageNum ,Integer pageSize, @PathVariable Long parentId) {
-        Page<UmsMenu> pageInfo = new Page<>(pageNum,pageSize);
-        LambdaQueryWrapper<UmsMenu> menuLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        menuLambdaQueryWrapper.eq(UmsMenu::getParentId,parentId);
-        menuService.page(pageInfo,menuLambdaQueryWrapper);
+        Page<UmsMenu> pageInfo = menuService.getPageInfo(pageNum, pageSize, parentId);
         return CommonResult.success(pageInfo);
     }
 
@@ -116,11 +105,9 @@ public class UmsMenuController {
      */
     @PostMapping("/updateHidden/{id}")
     public CommonResult updateHidden(@PathVariable Long id,Integer hidden) {
-        LambdaUpdateWrapper<UmsMenu> menuLambdaUpdateWrapper=new LambdaUpdateWrapper<>();
-        menuLambdaUpdateWrapper.eq(UmsMenu::getId,id).set(UmsMenu::getHidden,hidden);
-        boolean update = menuService.update(menuLambdaUpdateWrapper);
-        if(update) {
-            return CommonResult.success(update,"菜单显示状态已修改!!!");
+        int count = menuService.updateHidden(id, hidden);
+        if(count>0) {
+            return CommonResult.success(count,"菜单显示状态已修改!!!");
         }
         return CommonResult.failed();
     }

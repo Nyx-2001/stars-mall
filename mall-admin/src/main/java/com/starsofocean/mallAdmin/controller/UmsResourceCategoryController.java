@@ -36,9 +36,9 @@ public class UmsResourceCategoryController {
      */
     @PostMapping("/create")
     public CommonResult create (@RequestBody UmsResourceCategory resourceCategory) {
-        boolean flag = resourceCategoryService.save(resourceCategory);
-        if(flag) {
-            return CommonResult.success(flag);
+        boolean save = resourceCategoryService.save(resourceCategory);
+        if(save) {
+            return CommonResult.success(save);
         }
         return CommonResult.failed();
     }
@@ -52,9 +52,9 @@ public class UmsResourceCategoryController {
     @PostMapping("/update/{id}")
     public CommonResult update (@PathVariable Long id,@RequestBody UmsResourceCategory resourceCategory) {
         resourceCategory.setId(id);
-        boolean flag = resourceCategoryService.updateById(resourceCategory);
-        if(flag) {
-            return CommonResult.success(flag);
+        boolean update = resourceCategoryService.updateById(resourceCategory);
+        if(update) {
+            return CommonResult.success(update);
         }
         return CommonResult.failed();
     }
@@ -66,9 +66,9 @@ public class UmsResourceCategoryController {
      */
     @DeleteMapping("/delete/{id}")
     public CommonResult delete (@PathVariable Long id) {
-        boolean flag = resourceCategoryService.removeById(id);
-        if(flag) {
-            return CommonResult.success(flag);
+        boolean delete = resourceCategoryService.removeById(id);
+        if(delete) {
+            return CommonResult.success(delete);
         }
         return CommonResult.failed();
     }

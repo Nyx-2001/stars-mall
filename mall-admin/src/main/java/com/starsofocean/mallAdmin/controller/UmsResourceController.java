@@ -1,6 +1,5 @@
 package com.starsofocean.mallAdmin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.starsofocean.mallAdmin.domain.UmsResource;
 import com.starsofocean.mallAdmin.service.UmsResourceService;
@@ -44,9 +43,9 @@ public class UmsResourceController {
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id,@RequestBody UmsResource resource) {
         resource.setId(id);
-        boolean b = resourceService.updateById(resource);
-        if(b) {
-            return CommonResult.success(b);
+        boolean update = resourceService.updateById(resource);
+        if(update) {
+            return CommonResult.success(update);
         }
         return CommonResult.failed();
     }
@@ -59,10 +58,7 @@ public class UmsResourceController {
     @GetMapping("/{id}")
     public CommonResult<UmsResource> getById (@PathVariable Long id) {
         UmsResource resource = resourceService.getById(id);
-        if(resource != null) {
-            return CommonResult.success(resource);
-        }
-        return CommonResult.failed();
+        return CommonResult.success(resource);
     }
 
     /**
@@ -72,9 +68,9 @@ public class UmsResourceController {
      */
     @DeleteMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
-        boolean b = resourceService.removeById(id);
-        if(b) {
-            return CommonResult.success(b);
+        boolean delete = resourceService.removeById(id);
+        if(delete) {
+            return CommonResult.success(delete);
         }
         return CommonResult.failed();
     }
@@ -94,12 +90,7 @@ public class UmsResourceController {
                                                 @RequestParam(required = false) String urlKeyword,
                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<UmsResource> pageInfo=new Page<>(pageNum,pageSize);
-        LambdaQueryWrapper<UmsResource> resourceLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        resourceLambdaQueryWrapper.like(categoryId != null,UmsResource::getCategoryId,categoryId)
-                .or().like(nameKeyword != null,UmsResource::getName,nameKeyword)
-                .or().like(urlKeyword != null,UmsResource::getUrl,urlKeyword);
-        resourceService.page(pageInfo,resourceLambdaQueryWrapper);
+        Page<UmsResource> pageInfo = resourceService.getPageInfo(categoryId, nameKeyword, urlKeyword, pageNum, pageSize);
         return CommonResult.success(pageInfo);
     }
 

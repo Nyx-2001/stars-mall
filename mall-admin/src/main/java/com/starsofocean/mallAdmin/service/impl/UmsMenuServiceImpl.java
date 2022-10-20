@@ -1,5 +1,8 @@
 package com.starsofocean.mallAdmin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.starsofocean.mallAdmin.domain.UmsMenu;
 import com.starsofocean.mallAdmin.dto.UmsMenuNode;
@@ -25,6 +28,39 @@ public class UmsMenuServiceImpl extends ServiceImpl<UmsMenuMapper, UmsMenu> impl
                 .filter(menu -> menu.getParentId().equals(0L))
                 .map(menu -> covertMenuNode(menu, menuList)).collect(Collectors.toList());
         return result;
+    }
+
+    @Override
+    public int updateMenu(Long id, UmsMenu menu) {
+        int count=0;
+        LambdaQueryWrapper<UmsMenu> menuLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        menuLambdaQueryWrapper.eq(UmsMenu::getId,id);
+        boolean update = this.update(menu, menuLambdaQueryWrapper);
+        if(update) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public Page<UmsMenu> getPageInfo(Integer pageNum, Integer pageSize, Long parentId) {
+        Page<UmsMenu> pageInfo = new Page<>(pageNum,pageSize);
+        LambdaQueryWrapper<UmsMenu> menuLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        menuLambdaQueryWrapper.eq(UmsMenu::getParentId,parentId);
+        this.page(pageInfo,menuLambdaQueryWrapper);
+        return pageInfo;
+    }
+
+    @Override
+    public int updateHidden(Long id, Integer hidden) {
+        int count=0;
+        LambdaUpdateWrapper<UmsMenu> menuLambdaUpdateWrapper=new LambdaUpdateWrapper<>();
+        menuLambdaUpdateWrapper.eq(UmsMenu::getId,id).set(UmsMenu::getHidden,hidden);
+        boolean update = this.update(menuLambdaUpdateWrapper);
+        if(update) {
+            count=1;
+        }
+        return count;
     }
 
     /**

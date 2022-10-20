@@ -1,5 +1,7 @@
 package com.starsofocean.mallAdmin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.starsofocean.mallAdmin.domain.UmsResource;
 import com.starsofocean.mallAdmin.domain.UmsRole;
@@ -53,5 +55,16 @@ public class UmsResourceServiceImpl extends ServiceImpl<UmsResourceMapper, UmsRe
         redisService.del(AuthConstant.RESOURCE_ROLES_MAP_KEY);
         redisService.hSetAll(AuthConstant.RESOURCE_ROLES_MAP_KEY, resourceRoleMap);
         return resourceRoleMap;
+    }
+
+    @Override
+    public Page<UmsResource> getPageInfo(Long categoryId, String nameKeyword, String urlKeyword, Integer pageNum, Integer pageSize) {
+        Page<UmsResource> pageInfo=new Page<>(pageNum,pageSize);
+        LambdaQueryWrapper<UmsResource> resourceLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        resourceLambdaQueryWrapper.like(categoryId != null,UmsResource::getCategoryId,categoryId)
+                .or().like(nameKeyword != null,UmsResource::getName,nameKeyword)
+                .or().like(urlKeyword != null,UmsResource::getUrl,urlKeyword);
+        this.page(pageInfo,resourceLambdaQueryWrapper);
+        return pageInfo;
     }
 }
