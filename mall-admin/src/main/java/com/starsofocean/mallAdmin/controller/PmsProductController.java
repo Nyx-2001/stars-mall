@@ -78,14 +78,23 @@ public class PmsProductController {
         return CommonResult.success(pageInfo);
     }
 
-    //根据商品名称或者货号模糊查询
+    /**
+     * 根据商品名称或者货号模糊查询
+     * @param keyWord
+     * @return
+     */
     @GetMapping("/simpleList")
     public CommonResult<List<PmsProduct>> getList(String keyWord) {
         List<PmsProduct> productList = productService.simpleList(keyWord);
         return CommonResult.success(productList);
     }
 
-    //批量上下架
+    /**
+     * 批量上下架
+     * @param ids
+     * @param publishStatus
+     * @return
+     */
     @PostMapping("/update/publishStatus")
     public CommonResult updatePublishStatus(List<Long> ids,Integer publishStatus) {
         int count = productService.updatePublishStatus(ids, publishStatus);
@@ -95,7 +104,13 @@ public class PmsProductController {
         return CommonResult.failed();
     }
 
-    //批量修改审核状态
+    /**
+     * 批量修改审核状态
+     * @param ids
+     * @param verifyStatus
+     * @param detail
+     * @return
+     */
     @PostMapping("/update/verifyStatus")
     public CommonResult updateVerifyStatus(List<Long> ids,Integer verifyStatus,String detail) {
         int count = productService.updateVerifyStatus(ids, verifyStatus, detail);
@@ -105,7 +120,12 @@ public class PmsProductController {
         return CommonResult.failed();
     }
 
-    //批量推荐商品
+    /**
+     * 批量推荐商品
+     * @param ids
+     * @param recommendStatus
+     * @return
+     */
     @PostMapping("/update/recommendStatus")
     public CommonResult updateRecommendStatus(List<Long> ids,Integer recommendStatus) {
         int count = productService.updateRecommendStatus(ids, recommendStatus);
@@ -115,7 +135,12 @@ public class PmsProductController {
         return CommonResult.failed();
     }
 
-    //批量设为新品
+    /**
+     * 批量设为新品
+     * @param ids
+     * @param newStatus
+     * @return
+     */
     @PostMapping("/update/newStatus")
     public CommonResult updateNewStatus(List<Long> ids,Integer newStatus) {
         int count = productService.updateNewStatus(ids, newStatus);
@@ -125,7 +150,12 @@ public class PmsProductController {
         return CommonResult.failed();
     }
 
-    //批量修改删除状态
+    /**
+     * 批量修改删除状态
+     * @param ids
+     * @param deleteStatus
+     * @return
+     */
     @PostMapping("/update/deleteStatus")
     public CommonResult updateDeleteStatus(List<Long> ids,Integer deleteStatus) {
         int count = productService.updateDeleteStatus(ids,deleteStatus);

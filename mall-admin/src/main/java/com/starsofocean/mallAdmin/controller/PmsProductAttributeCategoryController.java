@@ -20,7 +20,11 @@ public class PmsProductAttributeCategoryController {
     @Resource
     private PmsProductAttributeCategoryService productAttributeCategoryService;
 
-    //添加商品属性分类
+    /**
+     * 添加商品属性分类
+     * @param name
+     * @return
+     */
     @PostMapping("/create")
     public CommonResult create(String name) {
         int count = productAttributeCategoryService.createAttributeCategory(name);
@@ -30,7 +34,12 @@ public class PmsProductAttributeCategoryController {
         return CommonResult.failed();
     }
 
-    //修改商品属性分类
+    /**
+     * 修改商品属性分类
+     * @param id
+     * @param name
+     * @return
+     */
     @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id,String name) {
         int count = productAttributeCategoryService.updateAttributeCategory(id, name);
@@ -40,7 +49,11 @@ public class PmsProductAttributeCategoryController {
         return CommonResult.failed();
     }
 
-    //删除单个商品属性分类
+    /**
+     * 删除单个商品属性分类
+     * @param id
+     * @return
+     */
     @DeleteMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         boolean delete = productAttributeCategoryService.removeById(id);
@@ -50,21 +63,33 @@ public class PmsProductAttributeCategoryController {
         return CommonResult.failed();
     }
 
-    //获取单个商品属性分类信息
+    /**
+     * 获取单个商品属性分类信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public CommonResult<PmsProductAttributeCategory> getItem(@PathVariable Long id) {
         PmsProductAttributeCategory productAttributeCategory = productAttributeCategoryService.getById(id);
         return CommonResult.success(productAttributeCategory);
     }
 
-    //分类获取所有商品属性分类
+    /**
+     * 分类获取所有商品属性分类
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @GetMapping("/list")
     public CommonResult<Page<PmsProductAttributeCategory>> getList(@RequestParam(defaultValue = "5") Integer pageSize, @RequestParam(defaultValue = "1") Integer pageNum) {
         Page<PmsProductAttributeCategory> pageInfo = productAttributeCategoryService.getPageInfo(pageNum, pageSize);
         return CommonResult.success(pageInfo);
     }
 
-    //获取所有商品属性分类及其下属性
+    /**
+     * 获取所有商品属性分类及其下属性
+     * @return
+     */
     @GetMapping("/list/withAttr")
     public CommonResult<List<PmsProductAttributeCategoryItem>> getListWithAttr() {
         List<PmsProductAttributeCategoryItem> productAttributeCategoryItemList = productAttributeCategoryService.getListWithAttr();
