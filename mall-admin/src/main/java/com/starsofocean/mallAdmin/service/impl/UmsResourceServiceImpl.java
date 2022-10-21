@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,6 @@ public class UmsResourceServiceImpl extends ServiceImpl<UmsResourceMapper, UmsRe
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @PostConstruct
     @Override
     public Map<String, List<String>> initResourceRoleMap() {
         Map<String,List<String>> resourceRoleMap = new TreeMap<>();
