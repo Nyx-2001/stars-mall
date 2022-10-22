@@ -30,5 +30,4 @@ public class CmsPrefrenceAreaController {
         return CommonResult.success(prefrenceAreaList);
     }
 
-
 }
