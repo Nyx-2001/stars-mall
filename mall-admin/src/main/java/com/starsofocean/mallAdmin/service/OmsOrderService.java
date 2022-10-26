@@ -15,4 +15,8 @@ public interface OmsOrderService extends IService<OmsOrder> {
     List<OmsOrder> getList(OmsOrderQueryParam queryParam, Integer pageNum, Integer pageSize);
 
     int updateDelivery(List<OmsOrderDeliveryParam> deliveryParamList);
+
+    int close(List<Long> ids, String note);
+
+    int delete(List<Long> ids);
 }

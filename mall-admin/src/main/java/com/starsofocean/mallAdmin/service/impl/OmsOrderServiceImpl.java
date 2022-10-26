@@ -43,7 +43,7 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         //不知道查出来的结果是否有序
         List<OmsOrder> orderList = this.listByIds(ids);
         List<OmsOrder> orders = orderList.stream().map(item -> {
-            //如何不是一一对应就这样
+            //如果不是一一对应就这样
             for (OmsOrderDeliveryParam orderDeliveryParam : deliveryParamList) {
                 if (item.getId().equals(orderDeliveryParam.getOrderId())) {
                     item.setDeliveryCompany(orderDeliveryParam.getDeliveryCompany());
@@ -54,8 +54,33 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
             }
             return item;
         }).collect(Collectors.toList());
-        boolean save = this.saveBatch(orders);
-        if(save) {
+        boolean update= this.updateBatchById(orders);
+        if(update) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int close(List<Long> ids, String note) {
+        int count=0;
+        List<OmsOrder> orderList = this.listByIds(ids);
+        List<OmsOrder> orders = orderList.stream().map(item -> {
+            item.setStatus(4);
+            return item;
+        }).collect(Collectors.toList());
+        boolean update = this.updateBatchById(orders);
+        if(update) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int delete(List<Long> ids) {
+        int count=0;
+        boolean delete = this.removeBatchByIds(ids);
+        if(delete) {
             count=1;
         }
         return count;

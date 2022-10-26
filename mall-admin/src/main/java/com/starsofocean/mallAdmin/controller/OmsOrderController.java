@@ -35,9 +35,43 @@ public class OmsOrderController {
         return CommonResult.success(orderList);
     }
 
+    /**
+     *批量发货
+     * @param deliveryParamList
+     * @return
+     */
     @PostMapping("/update/delivery")
     public CommonResult updateDelivery(@RequestBody List<OmsOrderDeliveryParam> deliveryParamList) {
         int count = orderService.updateDelivery(deliveryParamList);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    /**
+     * 批量关闭订单
+     * @param ids
+     * @param note
+     * @return
+     */
+    @PostMapping("/update/close")
+    public CommonResult close (List<Long> ids,String note) {
+        int count = orderService.close(ids, note);
+        if(count>0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    /**
+     * 批量删除订单
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/delete")
+    public CommonResult delete(List<Long> ids) {
+        int count = orderService.delete(ids);
         if(count>0) {
             return CommonResult.success(count);
         }
