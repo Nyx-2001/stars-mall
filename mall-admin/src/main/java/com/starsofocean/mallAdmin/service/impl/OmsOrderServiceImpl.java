@@ -3,12 +3,17 @@ package com.starsofocean.mallAdmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.starsofocean.mallAdmin.domain.OmsOrder;
-import com.starsofocean.mallAdmin.dto.OmsOrderDeliveryParam;
-import com.starsofocean.mallAdmin.dto.OmsOrderQueryParam;
+import com.starsofocean.mallAdmin.domain.OmsOrderItem;
+import com.starsofocean.mallAdmin.domain.OmsOrderOperateHistory;
+import com.starsofocean.mallAdmin.dto.*;
 import com.starsofocean.mallAdmin.mapper.OmsOrderMapper;
+import com.starsofocean.mallAdmin.service.OmsOrderItemService;
+import com.starsofocean.mallAdmin.service.OmsOrderOperateHistoryService;
 import com.starsofocean.mallAdmin.service.OmsOrderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +23,10 @@ import java.util.stream.Collectors;
  */
 @Service
 public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> implements OmsOrderService {
+    @Resource
+    private OmsOrderItemService orderItemService;
+    @Resource
+    private OmsOrderOperateHistoryService orderOperateHistoryService;
     @Override
     public List<OmsOrder> getList(OmsOrderQueryParam queryParam, Integer pageNum, Integer pageSize) {
         LambdaQueryWrapper<OmsOrder> orderLambdaQueryWrapper=new LambdaQueryWrapper<>();
@@ -32,7 +41,6 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
     }
 
     /**
-     * 没看前端，暂时是猜的业务逻辑
      * @param deliveryParamList
      * @return
      */
@@ -81,6 +89,61 @@ public class OmsOrderServiceImpl extends ServiceImpl<OmsOrderMapper, OmsOrder> i
         int count=0;
         boolean delete = this.removeBatchByIds(ids);
         if(delete) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public OmsOrderDetail getDetail(Long id) {
+        OmsOrder order = this.getById(id);
+        OmsOrderDetail orderDetail = new OmsOrderDetail();
+        BeanUtils.copyProperties(order,orderDetail);
+        LambdaQueryWrapper<OmsOrderItem> orderItemLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        orderItemLambdaQueryWrapper.eq(OmsOrderItem::getOrderId,id);
+        List<OmsOrderItem> orderItemList = orderItemService.list(orderItemLambdaQueryWrapper);
+        LambdaQueryWrapper<OmsOrderOperateHistory> orderOperateHistoryLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        orderOperateHistoryLambdaQueryWrapper.eq(OmsOrderOperateHistory::getOrderId,id);
+        List<OmsOrderOperateHistory> historyList = orderOperateHistoryService.list(orderOperateHistoryLambdaQueryWrapper);
+        orderDetail.setOrderItemList(orderItemList);
+        orderDetail.setHistoryList(historyList);
+        return orderDetail;
+    }
+
+    @Override
+    public int updateReceiverInfo(OmsReceiverInfoParam receiverInfoParam) {
+        int count=0;
+        OmsOrder order = this.getById(receiverInfoParam.getOrderId());
+        BeanUtils.copyProperties(receiverInfoParam,order);
+        boolean update = this.updateById(order);
+        if(update) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int updateMoneyInfo(OmsMoneyInfoParam moneyInfoParam) {
+        int count=0;
+        OmsOrder order = this.getById(moneyInfoParam.getOrderId());
+        BeanUtils.copyProperties(moneyInfoParam,order);
+        boolean update = this.updateById(order);
+        if(update) {
+            count=1;
+        }
+        return count;
+    }
+
+    @Override
+    public int updateNote(Long id, String note, Integer status) {
+        int count=0;
+        if(status>1) {
+            return count;
+        }
+        OmsOrder order = this.getById(id);
+        order.setNote(note);
+        boolean update = this.updateById(order);
+        if(update) {
             count=1;
         }
         return count;

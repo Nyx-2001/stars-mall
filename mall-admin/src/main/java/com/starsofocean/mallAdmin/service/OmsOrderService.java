@@ -2,8 +2,7 @@ package com.starsofocean.mallAdmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.starsofocean.mallAdmin.domain.OmsOrder;
-import com.starsofocean.mallAdmin.dto.OmsOrderDeliveryParam;
-import com.starsofocean.mallAdmin.dto.OmsOrderQueryParam;
+import com.starsofocean.mallAdmin.dto.*;
 
 import java.util.List;
 
@@ -19,4 +18,12 @@ public interface OmsOrderService extends IService<OmsOrder> {
     int close(List<Long> ids, String note);
 
     int delete(List<Long> ids);
+
+    OmsOrderDetail getDetail(Long id);
+
+    int updateReceiverInfo(OmsReceiverInfoParam receiverInfoParam);
+
+    int updateMoneyInfo(OmsMoneyInfoParam moneyInfoParam);
+
+    int updateNote(Long id, String note, Integer status);
 }
