@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: mall-portal
+  cloud:
+    nacos:
+      discovery:
+        server-addr:
+      config:
+        server-addr:
+        file-extension: yaml
