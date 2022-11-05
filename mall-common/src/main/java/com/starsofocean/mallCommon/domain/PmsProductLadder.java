@@ -1,4 +1,4 @@
-package com.starsofocean.mallAdmin.domain;
+package com.starsofocean.mallCommon.domain;
 
 import lombok.Data;
 

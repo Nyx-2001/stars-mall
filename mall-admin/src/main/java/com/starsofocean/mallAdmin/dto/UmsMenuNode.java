@@ -1,6 +1,6 @@
 package com.starsofocean.mallAdmin.dto;
 
-import com.starsofocean.mallAdmin.domain.UmsMenu;
+import com.starsofocean.mallCommon.domain.UmsMenu;
 import lombok.Data;
 
 import java.util.List;

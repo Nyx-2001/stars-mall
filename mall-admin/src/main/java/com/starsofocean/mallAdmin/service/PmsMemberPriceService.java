@@ -1,7 +1,7 @@
 package com.starsofocean.mallAdmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.starsofocean.mallAdmin.domain.PmsMemberPrice;
+import com.starsofocean.mallCommon.domain.PmsMemberPrice;
 
 /**
  * @author starsofocean

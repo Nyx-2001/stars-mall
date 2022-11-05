@@ -3,11 +3,11 @@ package com.starsofocean.mallAdmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.PmsProductCategory;
 import com.starsofocean.mallAdmin.dto.PmsProductCategoryParam;
 import com.starsofocean.mallAdmin.dto.PmsProductCategoryWithChildrenItem;
 import com.starsofocean.mallAdmin.mapper.PmsProductCategoryMapper;
 import com.starsofocean.mallAdmin.service.PmsProductCategoryService;
+import com.starsofocean.mallCommon.domain.PmsProductCategory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 

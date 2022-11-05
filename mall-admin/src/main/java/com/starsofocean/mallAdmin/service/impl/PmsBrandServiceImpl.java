@@ -3,9 +3,9 @@ package com.starsofocean.mallAdmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.PmsBrand;
 import com.starsofocean.mallAdmin.mapper.PmsBrandMapper;
 import com.starsofocean.mallAdmin.service.PmsBrandService;
+import com.starsofocean.mallCommon.domain.PmsBrand;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

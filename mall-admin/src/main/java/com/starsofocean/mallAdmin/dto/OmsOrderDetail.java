@@ -1,8 +1,8 @@
 package com.starsofocean.mallAdmin.dto;
 
-import com.starsofocean.mallAdmin.domain.OmsOrder;
-import com.starsofocean.mallAdmin.domain.OmsOrderItem;
-import com.starsofocean.mallAdmin.domain.OmsOrderOperateHistory;
+import com.starsofocean.mallCommon.domain.OmsOrder;
+import com.starsofocean.mallCommon.domain.OmsOrderItem;
+import com.starsofocean.mallCommon.domain.OmsOrderOperateHistory;
 import lombok.Data;
 
 import java.util.List;

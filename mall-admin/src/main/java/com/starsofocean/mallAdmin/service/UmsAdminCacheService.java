@@ -1,6 +1,6 @@
 package com.starsofocean.mallAdmin.service;
 
-import com.starsofocean.mallAdmin.domain.UmsAdmin;
+import com.starsofocean.mallCommon.domain.UmsAdmin;
 
 /**
  * @author starsofocean

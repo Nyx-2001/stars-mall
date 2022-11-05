@@ -1,6 +1,6 @@
 package com.starsofocean.mallAdmin.dto;
 
-import com.starsofocean.mallAdmin.domain.*;
+import com.starsofocean.mallCommon.domain.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

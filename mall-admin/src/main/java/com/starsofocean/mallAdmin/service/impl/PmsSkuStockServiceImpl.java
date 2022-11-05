@@ -2,9 +2,9 @@ package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.PmsSkuStock;
 import com.starsofocean.mallAdmin.mapper.PmsSkuStockMapper;
 import com.starsofocean.mallAdmin.service.PmsSkuStockService;
+import com.starsofocean.mallCommon.domain.PmsSkuStock;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

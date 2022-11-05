@@ -1,9 +1,9 @@
 package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.UmsAdminRoleRelation;
 import com.starsofocean.mallAdmin.mapper.UmsAdminRoleRelationMapper;
 import com.starsofocean.mallAdmin.service.UmsAdminRoleRelationService;
+import com.starsofocean.mallCommon.domain.UmsAdminRoleRelation;
 import org.springframework.stereotype.Service;
 
 /**

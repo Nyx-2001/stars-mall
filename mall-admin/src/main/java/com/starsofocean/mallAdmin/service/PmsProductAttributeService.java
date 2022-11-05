@@ -2,9 +2,9 @@ package com.starsofocean.mallAdmin.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.starsofocean.mallAdmin.domain.PmsProductAttribute;
 import com.starsofocean.mallAdmin.dto.PmsProductAttributeParam;
 import com.starsofocean.mallAdmin.dto.ProductAttrInfo;
+import com.starsofocean.mallCommon.domain.PmsProductAttribute;
 
 import java.util.List;
 

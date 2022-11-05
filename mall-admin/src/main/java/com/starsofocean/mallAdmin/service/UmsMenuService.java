@@ -2,8 +2,8 @@ package com.starsofocean.mallAdmin.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.starsofocean.mallAdmin.domain.UmsMenu;
 import com.starsofocean.mallAdmin.dto.UmsMenuNode;
+import com.starsofocean.mallCommon.domain.UmsMenu;
 
 import java.util.List;
 

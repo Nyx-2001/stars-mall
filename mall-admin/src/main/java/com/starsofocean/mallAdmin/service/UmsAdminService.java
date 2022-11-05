@@ -2,12 +2,12 @@ package com.starsofocean.mallAdmin.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.starsofocean.mallAdmin.domain.UmsAdmin;
-import com.starsofocean.mallAdmin.domain.UmsRole;
 import com.starsofocean.mallAdmin.dto.UmsAdminLoginParam;
 import com.starsofocean.mallAdmin.dto.UmsAdminParam;
 import com.starsofocean.mallAdmin.dto.UpdateAdminPasswordParam;
 import com.starsofocean.mallCommon.api.CommonResult;
+import com.starsofocean.mallCommon.domain.UmsAdmin;
+import com.starsofocean.mallCommon.domain.UmsRole;
 import com.starsofocean.mallCommon.domain.UserDto;
 
 import java.util.List;

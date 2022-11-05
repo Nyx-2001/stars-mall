@@ -1,7 +1,7 @@
 package com.starsofocean.mallAdmin.dto;
 
-import com.starsofocean.mallAdmin.domain.PmsProductAttribute;
-import com.starsofocean.mallAdmin.domain.PmsProductAttributeCategory;
+import com.starsofocean.mallCommon.domain.PmsProductAttribute;
+import com.starsofocean.mallCommon.domain.PmsProductAttributeCategory;
 import lombok.Data;
 
 import java.util.List;

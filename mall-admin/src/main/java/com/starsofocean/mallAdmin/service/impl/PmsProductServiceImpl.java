@@ -4,16 +4,16 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.*;
 import com.starsofocean.mallAdmin.dto.PmsProductParam;
 import com.starsofocean.mallAdmin.dto.PmsProductQueryParam;
 import com.starsofocean.mallAdmin.dto.PmsProductResult;
 import com.starsofocean.mallAdmin.mapper.PmsProductMapper;
 import com.starsofocean.mallAdmin.service.*;
+import com.starsofocean.mallCommon.domain.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;

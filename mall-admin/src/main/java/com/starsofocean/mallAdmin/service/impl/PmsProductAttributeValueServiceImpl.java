@@ -1,9 +1,9 @@
 package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.PmsProductAttributeValue;
 import com.starsofocean.mallAdmin.mapper.PmsProductAttributeValueMapper;
 import com.starsofocean.mallAdmin.service.PmsProductAttributeValueService;
+import com.starsofocean.mallCommon.domain.PmsProductAttributeValue;
 import org.springframework.stereotype.Service;
 
 /**

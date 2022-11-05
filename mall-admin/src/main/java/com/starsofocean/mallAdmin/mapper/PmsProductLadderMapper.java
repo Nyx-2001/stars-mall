@@ -1,7 +1,7 @@
 package com.starsofocean.mallAdmin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.starsofocean.mallAdmin.domain.PmsProductLadder;
+import com.starsofocean.mallCommon.domain.PmsProductLadder;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -2,9 +2,9 @@ package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.UmsMemberLevel;
 import com.starsofocean.mallAdmin.mapper.UmsMemberLevelMapper;
 import com.starsofocean.mallAdmin.service.UmsMemberLevelService;
+import com.starsofocean.mallCommon.domain.UmsMemberLevel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

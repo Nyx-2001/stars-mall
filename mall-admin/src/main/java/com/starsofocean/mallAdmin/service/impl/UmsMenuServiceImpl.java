@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.UmsMenu;
 import com.starsofocean.mallAdmin.dto.UmsMenuNode;
 import com.starsofocean.mallAdmin.mapper.UmsMenuMapper;
 import com.starsofocean.mallAdmin.service.UmsMenuService;
+import com.starsofocean.mallCommon.domain.UmsMenu;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 

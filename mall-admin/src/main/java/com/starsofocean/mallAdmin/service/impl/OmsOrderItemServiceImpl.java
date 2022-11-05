@@ -1,9 +1,9 @@
 package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.OmsOrderItem;
 import com.starsofocean.mallAdmin.mapper.OmsOrderItemMapper;
 import com.starsofocean.mallAdmin.service.OmsOrderItemService;
+import com.starsofocean.mallCommon.domain.OmsOrderItem;
 import org.springframework.stereotype.Service;
 
 /**

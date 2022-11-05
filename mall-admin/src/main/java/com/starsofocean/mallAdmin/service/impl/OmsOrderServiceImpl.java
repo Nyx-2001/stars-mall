@@ -2,14 +2,14 @@ package com.starsofocean.mallAdmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.OmsOrder;
-import com.starsofocean.mallAdmin.domain.OmsOrderItem;
-import com.starsofocean.mallAdmin.domain.OmsOrderOperateHistory;
 import com.starsofocean.mallAdmin.dto.*;
 import com.starsofocean.mallAdmin.mapper.OmsOrderMapper;
 import com.starsofocean.mallAdmin.service.OmsOrderItemService;
 import com.starsofocean.mallAdmin.service.OmsOrderOperateHistoryService;
 import com.starsofocean.mallAdmin.service.OmsOrderService;
+import com.starsofocean.mallCommon.domain.OmsOrder;
+import com.starsofocean.mallCommon.domain.OmsOrderItem;
+import com.starsofocean.mallCommon.domain.OmsOrderOperateHistory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 

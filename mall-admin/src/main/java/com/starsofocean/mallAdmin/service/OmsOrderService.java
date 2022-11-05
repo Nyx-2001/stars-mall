@@ -1,8 +1,8 @@
 package com.starsofocean.mallAdmin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.starsofocean.mallAdmin.domain.OmsOrder;
 import com.starsofocean.mallAdmin.dto.*;
+import com.starsofocean.mallCommon.domain.OmsOrder;
 
 import java.util.List;
 

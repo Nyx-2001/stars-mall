@@ -3,9 +3,9 @@ package com.starsofocean.mallAdmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.starsofocean.mallAdmin.domain.*;
 import com.starsofocean.mallAdmin.mapper.UmsRoleMapper;
 import com.starsofocean.mallAdmin.service.*;
+import com.starsofocean.mallCommon.domain.*;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
